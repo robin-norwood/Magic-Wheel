@@ -59,44 +59,23 @@ Controller.prototype = {
         var self = this;
 
         // Bind handlers
-        $(this.canvas).bind('mousedown', function (e) {
-            self.startDrag(e);
-        });
-
-        $(this.canvas).bind('mouseup', function (e) {
-            self.stopDrag();
-        });
-
-        $(this.canvas).bind('mousemove', function (e) {
-            var pos = Utils.getRelPos(e, self.canvas);
-            if (Math.sqrt(Math.pow(self.wheel.x - pos.x, 2) +
-                          Math.pow(self.wheel.y - pos.y, 2))
-                < self.wheel.radius) {
-                $(this).css('cursor', 'pointer');
-            }
-            else if(!self.dragging) {
-                $(this).css('cursor', 'default');
-            }
-
-            if (self.dragging) {
-                var now = (new Date()).getTime();
-                var angle = Math.atan2(pos.y - self.wheel.y,
-                                       pos.x - self.wheel.x)
-                    - Math.atan2(self.clickPos.y - self.wheel.y,
-                                 self.clickPos.x - self.wheel.x);
-                self.wheel.updated = true;
-                self.wheel.angle = self.origAngle + angle;
-
-                self.speed = angle / (now - self.lastUpdateTime);
-            }
-
-        });
+        $(this.canvas).bind('mousedown', function (e) {self.startDrag(e); });
+        $(this.canvas).bind('mouseup', function (e) { self.stopDrag(); });
+        $(this.canvas).bind('mousemove', function (e) { self.doDrag(e); });
 
         $(this.canvas).bind('mouseout', function (e) {
             self.stopDrag();
-            $(this).css('cursor', 'default');
+            $("#wheel_canvas").css('cursor', 'default');
         });
 
+        $(this.canvas).bind('touchstart', function (e) {self.startDrag(e); });
+        $(this.canvas).bind('touchend', function (e) { self.stopDrag(); });
+        $(this.canvas).bind('touchmove', function (e) { self.doDrag(e); });
+
+        $(this.canvas).bind('touchcancel', function (e) {
+            self.stopDrag();
+            $("#wheel_canvas").css('cursor', 'default');
+        });
 
         // Start animation loop
         (function animloop() {
@@ -110,6 +89,29 @@ Controller.prototype = {
         this.origAngle = this.wheel.angle;
 
         this.wheel.speed = 0;
+    },
+    doDrag: function (event) {
+        var pos = Utils.getRelPos(event, this.canvas);
+        if (Math.sqrt(Math.pow(this.wheel.x - pos.x, 2) +
+                      Math.pow(this.wheel.y - pos.y, 2))
+            < this.wheel.radius) {
+            $("#wheel_canvas").css('cursor', 'pointer');
+        }
+        else if(!this.dragging) {
+            $("#wheel_canvas").css('cursor', 'default');
+        }
+
+        if (this.dragging) {
+            var now = (new Date()).getTime();
+                var angle = Math.atan2(pos.y - this.wheel.y,
+                                       pos.x - this.wheel.x)
+                - Math.atan2(this.clickPos.y - this.wheel.y,
+                             this.clickPos.x - this.wheel.x);
+            this.wheel.updated = true;
+            this.wheel.angle = this.origAngle + angle;
+
+            this.speed = angle / (now - this.lastUpdateTime);
+        }
     },
     stopDrag: function () {
         if (!this.dragging) {
