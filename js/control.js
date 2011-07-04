@@ -32,7 +32,9 @@ var Controller = function () {
     this.maxSpeed = .020;
     this.speed = 0;
 
-    this.stopDrag();
+    this.clickPos = {x: undefined, y: undefined};
+    this.dragging = false;
+    this.origAngle = undefined;
 
     this.load();
 };
@@ -65,7 +67,7 @@ Controller.prototype = {
 
         $(this.canvas).bind('mouseout', function (e) {
             $("#wheel_canvas").css('cursor', 'default');
-            return self.stopDrag();
+            return self.stopDrag(e);
         });
 
         /* Thanks to http://www.sitepen.com/blog/2008/07/10/touching-and-gesturing-on-the-iphone/ for 'splaining this */
@@ -130,7 +132,7 @@ Controller.prototype = {
         event.preventDefault();
         return false;
     },
-    stopDrag: function () {
+    stopDrag: function (event) {
         event.preventDefault();
 
         if (!this.dragging) {
