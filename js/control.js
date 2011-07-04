@@ -68,6 +68,7 @@ Controller.prototype = {
             return self.stopDrag();
         });
 
+        /* Thanks to http://www.sitepen.com/blog/2008/07/10/touching-and-gesturing-on-the-iphone/ for 'splaining this */
         $(this.canvas).bind('touchstart', function (e) {return self.startDrag(e); });
         $(this.canvas).bind('touchend', function (e) { return self.stopDrag(e); });
         $(this.canvas).bind('touchmove', function (e) { return self.doDrag(e); });
@@ -84,7 +85,12 @@ Controller.prototype = {
         })();
     },
     startDrag: function (event) {
-        this.clickPos = Utils.getRelPos(event, this.canvas);
+        var theObj = event;
+        if (event.changedTouches) {
+            theObj = event.changedTouches[0];
+        }
+
+        this.clickPos = Utils.getRelPos(theObj, this.canvas);
         this.dragging = true;
         this.origAngle = this.wheel.angle;
 
@@ -94,7 +100,12 @@ Controller.prototype = {
         return false;
     },
     doDrag: function (event) {
-        var pos = Utils.getRelPos(event, this.canvas);
+        var theObj = event;
+        if (event.changedTouches) {
+            theObj = event.changedTouches[0];
+        }
+
+        var pos = Utils.getRelPos(theObj, this.canvas);
         if (Math.sqrt(Math.pow(this.wheel.x - pos.x, 2) +
                       Math.pow(this.wheel.y - pos.y, 2))
             < this.wheel.radius) {
