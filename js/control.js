@@ -59,22 +59,22 @@ Controller.prototype = {
         var self = this;
 
         // Bind handlers
-        $(this.canvas).bind('mousedown', function (e) {self.startDrag(e); });
-        $(this.canvas).bind('mouseup', function (e) { self.stopDrag(); });
-        $(this.canvas).bind('mousemove', function (e) { self.doDrag(e); });
+        $(this.canvas).bind('mousedown', function (e) { return self.startDrag(e); });
+        $(this.canvas).bind('mouseup', function (e) { return self.stopDrag(e); });
+        $(this.canvas).bind('mousemove', function (e) { return self.doDrag(e); });
 
         $(this.canvas).bind('mouseout', function (e) {
-            self.stopDrag();
             $("#wheel_canvas").css('cursor', 'default');
+            return self.stopDrag();
         });
 
-        $(this.canvas).bind('touchstart', function (e) {self.startDrag(e); });
-        $(this.canvas).bind('touchend', function (e) { self.stopDrag(); });
-        $(this.canvas).bind('touchmove', function (e) { self.doDrag(e); });
+        $(this.canvas).bind('touchstart', function (e) {return self.startDrag(e); });
+        $(this.canvas).bind('touchend', function (e) { return self.stopDrag(e); });
+        $(this.canvas).bind('touchmove', function (e) { return self.doDrag(e); });
 
         $(this.canvas).bind('touchcancel', function (e) {
-            self.stopDrag();
             $("#wheel_canvas").css('cursor', 'default');
+            return self.stopDrag();
         });
 
         // Start animation loop
@@ -89,6 +89,9 @@ Controller.prototype = {
         this.origAngle = this.wheel.angle;
 
         this.wheel.speed = 0;
+
+        event.preventDefault();
+        return false;
     },
     doDrag: function (event) {
         var pos = Utils.getRelPos(event, this.canvas);
@@ -112,10 +115,15 @@ Controller.prototype = {
 
             this.speed = angle / (now - this.lastUpdateTime);
         }
+
+        event.preventDefault();
+        return false;
     },
     stopDrag: function () {
+        event.preventDefault();
+
         if (!this.dragging) {
-            return;
+            return false;
         }
         this.clickPos = {x: undefined, y: undefined};
         this.dragging = false;
@@ -128,6 +136,8 @@ Controller.prototype = {
             this.speed = -1 * this.maxSpeed;
         }
         this.wheel.speed = this.speed;
+
+        return false;
     }
 };
 
