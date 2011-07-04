@@ -75,7 +75,7 @@ Controller.prototype = {
 
         $(this.canvas).bind('touchcancel', function (e) {
             $("#wheel_canvas").css('cursor', 'default');
-            return self.stopDrag();
+            return self.stopDrag(e);
         });
 
         // Start animation loop
@@ -86,8 +86,8 @@ Controller.prototype = {
     },
     startDrag: function (event) {
         var theObj = event;
-        if (event.changedTouches) {
-            theObj = event.changedTouches[0];
+        if (event.originalEvent.changedTouches) {
+            theObj = event.originalEvent.changedTouches[0];
         }
 
         this.clickPos = Utils.getRelPos(theObj, this.canvas);
@@ -101,8 +101,8 @@ Controller.prototype = {
     },
     doDrag: function (event) {
         var theObj = event;
-        if (event.changedTouches) {
-            theObj = event.changedTouches[0];
+        if (event.originalEvent.changedTouches) {
+            theObj = event.originalEvent.changedTouches[0];
         }
 
         var pos = Utils.getRelPos(theObj, this.canvas);
