@@ -23,7 +23,7 @@ var Wheel = function (x, y, radius) {
         {
             width: Math.PI/4,
             fillStyle: "#1e90ff",
-            text: ["Is the chord", "plugged in?"]
+            text: ["Is the cord", "plugged in?"]
         },
         {
             width: Math.PI/4,
