@@ -82,6 +82,7 @@ Controller.prototype = {
 
         this.editor = new Editor(this.wheel);
 
+        $("#edit_mode:checked").click();
         $("#edit_mode").bind('click', function (e) { self.editor.toggle(); });
 
         // Start animation loop
