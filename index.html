@@ -41,13 +41,18 @@
   </head>
 
   <body>
-    <p>
-      Magic Wheel of Answers is based upon
-      <a target="_new" href="http://www.passiveaggressivenotes.com/2011/01/24/it-help-desk-wheel-of-responses/">
-        this one
-      </a>
-      and others like it.
-    </p>
+    <div style="width: 95%">
+      <span>
+        Magic Wheel of Answers is based upon
+        <a target="_new" href="http://www.passiveaggressivenotes.com/2011/01/24/it-help-desk-wheel-of-responses/">
+          this one
+        </a>
+        and others like it.
+      </span>
+      <span style="float: right">
+        <input type="checkbox" id="edit_mode"/> edit mode
+      </span>
+    </div>
     <canvas id="wheel_canvas">This demo only works on browsers that support HTML5.</canvas>
 
   <!-- Javascript here -->
@@ -55,6 +60,7 @@
     <script type="text/javascript" src="js/jquery/jquery-1.6.js"></script>
     <script type="text/javascript" src="js/jquery/jquery.ba-dotimeout.js"></script>
     <script type="text/javascript" src="js/util.js"></script>
+    <script type="text/javascript" src="js/editor.js"></script>
     <script type="text/javascript" src="js/wheel.js"></script>
     <script type="text/javascript" src="js/control.js"></script>
   </body>

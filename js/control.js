@@ -48,7 +48,7 @@ Controller.prototype = {
     render: function (context) {
         var now = (new Date()).getTime();
         var delay = now - this.lastUpdateTime;
-        if (delay > 60) {
+        if (delay > 200) {
             this.log("Delay: " + delay);
         }
         context.clearRect(0, 0, this.canvas.width, this.canvas.height);
@@ -80,6 +80,10 @@ Controller.prototype = {
             return self.stopDrag(e);
         });
 
+        this.editor = new Editor(this.wheel);
+
+        $("#edit_mode").bind('click', function (e) { self.editor.toggle(); });
+
         // Start animation loop
         (function animloop() {
             self.render(self.context);
@@ -99,6 +103,7 @@ Controller.prototype = {
         this.wheel.speed = 0;
 
         event.preventDefault();
+
         return false;
     },
     doDrag: function (event) {
