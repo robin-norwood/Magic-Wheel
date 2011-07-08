@@ -29,6 +29,12 @@ var Controller = function () {
     this.context = this.canvas.getContext("2d");
 
     this.wheel = new Wheel(600, 420, 400);
+
+    var data = document.location.hash;
+    if (data) {
+        this.wheel.restore(data.slice(1));
+    }
+
     this.maxSpeed = .020;
     this.speed = 0;
 
@@ -84,6 +90,12 @@ Controller.prototype = {
 
         $("#edit_mode:checked").click();
         $("#edit_mode").bind('click', function (e) { self.editor.toggle(); });
+        $("#save").bind('mousedown', function (e) {
+            $(e.target).attr('href', '#' + self.wheel.save());
+
+            return true;
+        });
+
 
         // Start animation loop
         (function animloop() {

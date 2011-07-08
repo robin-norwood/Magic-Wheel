@@ -1,14 +1,12 @@
-o Editable text
+o url shortening.
 
-o Editable colors
-
-o Save state
-
-o Figure out Firefox 5 performance issues
+o Compress javascript and use CDN for jquery
 
 ** Release!
 
 Future:
+
+o Editable colors
 
 o Editable segment sizes
 
@@ -16,4 +14,10 @@ o Editable segment sizes
 DONE:
 
 o iPhone/Android
+
+o Editable text
+
+o Save state
+
+o Figure out Firefox 5 performance issues
 

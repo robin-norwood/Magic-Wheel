@@ -25,7 +25,7 @@ var Editor = function (wheel) {
         "-": "_",
         "[": "{",
         "]": "}",
-        "\\": "|",
+        "\\": "\\", // | is used as a separator
         "'": "\"",
         ",": "<",
         ".": ">",
@@ -128,7 +128,7 @@ Editor.prototype = {
             else if (event.which == 40) {
                 self.wheel.down();
             }
-            else if (event.which == 9) {
+            else if (event.which == 9) { // tab
                 if (event.shiftKey) {
                     self.wheel.prevSegment();
                 }

@@ -69,7 +69,7 @@ var Wheel = function (x, y, radius) {
         }
     ];
 
-    this.title = ["IT Helpdesk", "Wheel of Answers"];
+    this.title = ["Spin The", "Wheel of Answers"];
 };
 
 Wheel.prototype = {
@@ -178,6 +178,49 @@ Wheel.prototype = {
         context.fill();
         context.restore();
 
+    },
+    save: function () {
+        // Save the wheel contents
+        // format: seg1line1\nseg1line2|seg2line1\nseg2line2
+        var str = "";
+
+        $.each(this.segments, function (idx, seg) {
+            // ignoring width and style for now.
+
+            $.each(seg.text, function (txtidx, line) {
+                str += line + "\n";
+            });
+
+            str += "|";
+        });
+
+        return escape(str);
+    },
+    restore: function (str) {
+        // Restore wheel state from saved string
+        str = unescape(str);
+
+        this.reset();
+        var wheel = this;
+        $.each(str.split("|"), function (idx, seg) {
+            if (idx >= wheel.segments.length) {
+                return;
+            }
+            $.each(seg.split("\n"), function (txtidx, line) {
+                if (txtidx >= wheel.segments[idx].text.length) {
+                    return;
+                }
+                wheel.segments[idx].text[txtidx] = line;
+            });
+        });
+    },
+    reset: function () {
+        var wheel = this;
+        $.each(wheel.segments, function (idx, seg) {
+            $.each(seg.text, function (txtidx, line) {
+                seg.text[txtidx] = "";
+            });
+        });
     },
     // Editing functions:
     insert: function (theChar) {
